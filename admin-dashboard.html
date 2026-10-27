@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VENDOCINE — Admin Command</title>
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <nav class="sidebar" aria-label="Admin navigation">
+      <div class="brand"><img src="assets/logo.svg" alt=""><span>VENDOCINE</span></div>
+      <button class="nav-btn active" data-section="overview">📊 Overview</button>
+      <button class="nav-btn" data-section="registerTeacher">🧑‍🏫 Register Teacher</button>
+      <button class="nav-btn" data-section="students">🎓 Manage Students</button>
+      <button class="nav-btn" data-section="claims">💊 View Claims</button>
+      <button class="nav-btn" data-section="classes">🏫 Manage Classes</button>
+      <button class="nav-btn" data-section="machines">🤖 Machine Inventory</button>
+      <button class="nav-btn" data-section="credentials">🔑 User Credentials</button>
+      <div class="spacer"></div>
+      <button class="nav-btn" id="logoutBtn">⏏ Sign out</button>
+    </nav>
+
+    <main class="main">
+      <div class="topbar">
+        <h1>Master Operations Command</h1>
+        <span id="adminEmail" class="badge"></span>
+      </div>
+
+      <!-- OVERVIEW -->
+      <section id="overview" class="section active">
+        <div class="stats">
+          <div class="stat"><div class="num" id="statStudents">0</div><div class="lbl">Registered students</div></div>
+          <div class="stat"><div class="num" id="statTeachers">0</div><div class="lbl">Teachers</div></div>
+          <div class="stat"><div class="num" id="statClaims">0</div><div class="lbl">Total claims</div></div>
+          <div class="stat"><div class="num" id="statToday">0</div><div class="lbl">Dispenses today</div></div>
+          <div class="stat"><div class="num" id="statStock">0</div><div class="lbl">Units in stock</div></div>
+          <div class="stat" id="statLockCard"><div class="num" id="statLocked">0</div><div class="lbl">Machines locked out</div></div>
+        </div>
+        <div class="card">
+          <h2>Transaction Analytics Audit Engine</h2>
+          <p style="color:var(--muted)">Export the full real-time audit ledger as a print-ready CSV file.</p>
+          <button class="btn" id="downloadAuditBtn">⬇ Download Compliance Audit Report</button>
+        </div>
+        <div class="card">
+          <h2>Latest activity</h2>
+          <div class="table-wrap"><table><thead><tr><th>Time</th><th>Action</th><th>Details</th><th>User</th></tr></thead><tbody id="recentBody"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- REGISTER TEACHER -->
+      <section id="registerTeacher" class="section">
+        <div class="card" style="max-width:520px">
+          <h2>Register Teacher</h2>
+          <form id="teacherForm" novalidate>
+            <label for="tName">Full name</label><input id="tName" required>
+            <label for="tEmail">Email</label><input id="tEmail" type="email" required>
+            <label for="tPass">Temporary password (min 6 characters)</label><input id="tPass" type="password" minlength="6" required>
+            <div id="teacherMsg" class="error-text" role="alert"></div>
+            <button class="btn" type="submit">Create teacher account</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3>Registered teachers</h3>
+          <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Created</th></tr></thead><tbody id="teacherBody"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- STUDENTS -->
+      <section id="students" class="section">
+        <div class="card">
+          <h2 id="studentFormTitle">Add student</h2>
+          <form id="studentForm" novalidate>
+            <input type="hidden" id="sId">
+            <div class="form-grid">
+              <div><label for="sName">Name</label><input id="sName" required></div>
+              <div><label for="sLrn">LRN (12 digits)</label><input id="sLrn" inputmode="numeric" maxlength="12" pattern="\d{12}" required></div>
+              <div><label for="sClass">Class</label><input id="sClass" required></div>
+              <div><label for="sEmail">Email</label><input id="sEmail" type="email" required></div>
+              <div><label for="sGender">Gender</label><select id="sGender"><option value="female">Female</option><option value="male">Male</option></select></div>
+              <div><label for="sBirth">Birth date</label><input id="sBirth" type="date" required></div>
+              <div><label for="sPills">Pills left (1–5)</label><input id="sPills" type="number" min="1" max="5" value="5" required></div>
+              <div><label for="sParent">Parent contact</label><input id="sParent"></div>
+              <div id="sPassWrap"><label for="sPass">Login password (optional, creates account)</label><input id="sPass" type="password" minlength="6"></div>
+            </div>
+            <label for="sNotes">Medical notes</label><textarea id="sNotes" rows="2"></textarea>
+            <div id="studentMsg" class="error-text" role="alert"></div>
+            <button class="btn" type="submit" id="studentSubmit">Save student</button>
+            <button class="btn secondary" type="button" id="studentCancel" hidden>Cancel edit</button>
+          </form>
+        </div>
+        <div class="card">
+          <div class="topbar"><h2>Student records</h2><input id="studentSearch" placeholder="Search name, class or email…" style="max-width:280px"></div>
+          <p style="color:var(--muted);margin-top:0">LRNs are masked by default. Hover or use 👁 to reveal (data-privacy compliance).</p>
+          <div class="table-wrap"><table><thead><tr><th>Name</th><th>LRN</th><th>Class</th><th>Email</th><th>Pills</th><th>Claims</th><th>Actions</th></tr></thead><tbody id="studentBody"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- CLAIMS -->
+      <section id="claims" class="section">
+        <div class="card">
+          <h2>Dispense claims</h2>
+          <div class="table-wrap"><table><thead><tr><th>Time</th><th>Student LRN</th><th>Hopper</th><th>Details</th><th>User</th></tr></thead><tbody id="claimsBody"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- CLASSES -->
+      <section id="classes" class="section">
+        <div class="card">
+          <h2>Classes</h2>
+          <div class="table-wrap"><table><thead><tr><th>Class</th><th>Students</th><th>Pills remaining</th><th></th></tr></thead><tbody id="classBody"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- MACHINES -->
+      <section id="machines" class="section">
+        <div class="card">
+          <h2>Machine Inventory &amp; Interlock Matrix</h2>
+          <div id="machineList"></div>
+        </div>
+      </section>
+
+      <!-- CREDENTIALS -->
+      <section id="credentials" class="section">
+        <div class="card">
+          <h2>User credentials</h2>
+          <p style="color:var(--muted);margin-top:0">Passwords are never stored or shown. Changing a role or revoking access takes effect on next sign-in.</p>
+          <div class="table-wrap"><table><thead><tr><th>Email</th><th>Name</th><th>Role</th><th>Actions</th></tr></thead><tbody id="userBody"></tbody></table></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="disclaimer-footer">⚠️ MANDATORY CLINICAL WARNING FOOTER: If symptoms persist, consult your Doctor.</footer>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

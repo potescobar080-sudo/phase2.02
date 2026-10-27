@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VENDOCINE — Class Monitoring Hub</title>
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="main" style="flex:1">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:.8rem">
+        <img src="assets/logo.svg" alt="" width="44">
+        <div><h1 id="className" style="margin:0">Class</h1><span id="classSummary" style="color:var(--muted)"></span></div>
+      </div>
+      <div>
+        <a id="backLink" class="btn secondary" href="index.html">← Back to dashboard</a>
+        <button class="btn danger" id="logoutBtn">Sign out</button>
+      </div>
+    </div>
+
+    <div class="two-pane">
+      <aside class="card" aria-label="Students in this class">
+        <h2>Students</h2>
+        <div id="studentList"></div>
+      </aside>
+
+      <section>
+        <div class="card" id="profileCard">
+          <h2>Student file</h2>
+          <div id="profileBody" class="empty">Select a student to review their full file.</div>
+        </div>
+        <div class="card">
+          <h2>Recent claims</h2>
+          <div class="table-wrap"><table><thead><tr><th>Time</th><th>Student</th><th>Hopper</th><th>Details</th></tr></thead><tbody id="claimsBody"></tbody></table></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="disclaimer-footer">⚠️ MANDATORY CLINICAL WARNING FOOTER: If symptoms persist, consult your Doctor.</footer>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/classDetails.js"></script>
+</body>
+</html>

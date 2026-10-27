@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="VENDOCINE medicine cross logo">
+  <circle cx="100" cy="100" r="96" fill="#0b3d4a"/>
+  <circle cx="100" cy="100" r="88" fill="none" stroke="#2ec4b6" stroke-width="4"/>
+  <circle cx="100" cy="100" r="76" fill="none" stroke="#ffffff" stroke-width="2.5" opacity="0.85"/>
+  <circle cx="100" cy="100" r="64" fill="#ffffff"/>
+  <circle cx="100" cy="100" r="64" fill="none" stroke="#2ec4b6" stroke-width="3"/>
+  <rect x="82" y="46" width="36" height="108" rx="9" fill="#e63946"/>
+  <rect x="46" y="82" width="108" height="36" rx="9" fill="#e63946"/>
+  <circle cx="100" cy="100" r="14" fill="#ffffff"/>
+  <circle cx="100" cy="100" r="8" fill="none" stroke="#0b3d4a" stroke-width="3"/>
+</svg>

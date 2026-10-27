@@ -1,0 +1,40 @@
+{
+  "rules": {
+    "users": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || root.child('users').child(auth.uid).child('role').val() === 'admin')",
+        ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'"
+      }
+    },
+    "students": {
+      ".indexOn": ["class", "email", "lrn"],
+      ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'teacher')",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      "$sid": {
+        ".read": "auth != null && (root.child('users').child(auth.uid).child('studentId').val() === $sid || data.child('email').val() === auth.token.email)"
+      }
+    },
+    "machines": {
+      ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'teacher' || auth.token.device === true)",
+      "$mid": {
+        ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || auth.token.device === true)",
+        "phase": {
+          ".validate": "newData.val() === 'standby' || newData.parent().child('stock').val() > 0"
+        }
+      }
+    },
+    "activeTokens": {
+      ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || auth.token.device === true)",
+      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || auth.token.device === true)"
+    },
+    "auditLog": {
+      ".indexOn": ["studentLRN", "timestamp"],
+      ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'teacher' || (query.orderByChild === 'studentLRN' && query.equalTo === root.child('students').child(root.child('users').child(auth.uid).child('studentId').val()).child('lrn').val()))",
+      ".write": "auth != null",
+      "$logId": {
+        ".validate": "newData.hasChildren(['action', 'details', 'user', 'timestamp'])"
+      }
+    }
+  }
+}

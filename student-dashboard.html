@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VENDOCINE — My Telemetry</title>
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="main" style="flex:1;max-width:980px;margin:0 auto;width:100%">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:.8rem">
+        <img src="assets/logo.svg" alt="" width="44"><h1 style="margin:0">My Health Telemetry</h1>
+      </div>
+      <button class="btn danger" id="logoutBtn">Sign out</button>
+    </div>
+
+    <div id="notFound" class="card" hidden>
+      <h2>No student profile linked</h2>
+      <p>Your account is not linked to a student record yet. Please contact your clinic administrator.</p>
+    </div>
+
+    <div id="content" hidden>
+      <div class="stats">
+        <div class="stat"><div class="num" id="pillsStat">–</div><div class="lbl">Pills left (of 5)</div></div>
+        <div class="stat"><div class="num" id="limitStat">–</div><div class="lbl">Monthly limit</div></div>
+        <div class="stat"><div class="num" id="claimsStat">–</div><div class="lbl">Total claims</div></div>
+      </div>
+
+      <div class="card">
+        <h2>Profile</h2>
+        <dl class="kv" id="profile"></dl>
+      </div>
+
+      <div class="card">
+        <h2>Barcode voucher</h2>
+        <div class="voucher" id="voucher">
+          <div class="vname" id="vName"></div>
+          <div class="vnote" id="vClass"></div>
+          <canvas id="barcode" aria-label="Student LRN barcode"></canvas>
+          <div id="vLrnText" style="font-family:Consolas,monospace;letter-spacing:.15em"></div>
+          <p class="vnote">Hold this code under the GM65 scanner on the machine. Keep it private — it identifies you.</p>
+          <div id="barcodeError" class="error-text" role="alert"></div>
+          <button class="btn small" id="downloadBarcode" type="button">Save as image</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Account history</h2>
+        <div class="table-wrap"><table><thead><tr><th>Time</th><th>Action</th><th>Hopper</th><th>Details</th></tr></thead><tbody id="historyBody"></tbody></table></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="disclaimer-footer">⚠️ MANDATORY CLINICAL WARNING FOOTER: If symptoms persist, consult your Doctor.</footer>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/student.js"></script>
+</body>
+</html>
